@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-add-indexes
+      author: jenil
+      changes:
+        - createIndex:
+            tableName: projects
+            indexName: idx_projects_owner_id
+            columns:
+              - column:
+                  name: owner_id
+
+        - createIndex:
+            tableName: tasks
+            indexName: idx_tasks_project_id
+            columns:
+              - column:
+                  name: project_id
+
+        - createIndex:
+            tableName: tasks
+            indexName: idx_tasks_status
+            columns:
+              - column:
+                  name: status
+
+        - createIndex:
+            tableName: tasks
+            indexName: idx_tasks_priority
+            columns:
+              - column:
+                  name: priority
