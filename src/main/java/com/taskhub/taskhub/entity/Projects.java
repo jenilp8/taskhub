@@ -1,30 +1,27 @@
 package com.taskhub.taskhub.entity;
 
-import com.taskhub.taskhub.Role;
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
-public class Users {
+@Table(name = "projects")
+public class Projects {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 150)
     private String name;
 
-    @Column(nullable = false, length = 150, unique = true)
-    private String email;
+    @Column(length = 1000)
+    private String description;
 
-    @Column(nullable = false, length = 255)
-    private String password;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 50)
-    private Role role;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", nullable = false, foreignKey = @ForeignKey(name = "fk_projects_owner_id"))
+    private Users owner;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -32,8 +29,8 @@ public class Users {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "owner")
-    private List<Projects> projects;
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Tasks> tasks;
 
     public Long getId() {
         return id;
@@ -51,28 +48,20 @@ public class Users {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDescription() {
+        return description;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getPassword() {
-        return password;
+    public Users getOwner() {
+        return owner;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
+    public void setOwner(Users owner) {
+        this.owner = owner;
     }
 
     public LocalDateTime getCreatedAt() {

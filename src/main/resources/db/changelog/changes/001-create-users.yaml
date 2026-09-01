@@ -32,7 +32,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: role
-                  type: VARCHAR(50)
+                  type: VARCHAR(20)
                   constraints:
                     nullable: false
               - column:

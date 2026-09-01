@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-alter-users
+      author: jenil
+      changes:
+        - modifyDataType:
+            tableName: users
+            columnName: role
+            newDataType: VARCHAR(50)
