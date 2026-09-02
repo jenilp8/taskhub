@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class Users {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,7 @@ public class Users {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "owner")
-    private List<Projects> projects;
+    private List<Project> projects;
 
     public Long getId() {
         return id;

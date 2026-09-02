@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-alter-users-role
+      author: jenil
+      changes:
+        - addDefaultValue:
+            tableName: users
+            columnName: role
+            defaultValue: USER

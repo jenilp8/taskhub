@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "projects")
-public class Projects {
+public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class Projects {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false, foreignKey = @ForeignKey(name = "fk_projects_owner_id"))
-    private Users owner;
+    private User owner;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -30,7 +30,7 @@ public class Projects {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Tasks> tasks;
+    private List<Task> tasks;
 
     public Long getId() {
         return id;
@@ -56,11 +56,11 @@ public class Projects {
         this.description = description;
     }
 
-    public Users getOwner() {
+    public User getOwner() {
         return owner;
     }
 
-    public void setOwner(Users owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 

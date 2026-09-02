@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tasks")
-public class Tasks {
+public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,7 @@ public class Tasks {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tasks_project_id"))
-    private Projects project;
+    private Project project;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -97,11 +97,11 @@ public class Tasks {
         this.dueDate = dueDate;
     }
 
-    public Projects getProject() {
+    public Project getProject() {
         return project;
     }
 
-    public void setProject(Projects project) {
+    public void setProject(Project project) {
         this.project = project;
     }
 
