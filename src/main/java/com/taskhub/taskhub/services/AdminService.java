@@ -5,35 +5,36 @@ import com.taskhub.taskhub.dto.auth.UserResponseDTO;
 import com.taskhub.taskhub.entity.User;
 import com.taskhub.taskhub.exception.UserNotFoundException;
 import com.taskhub.taskhub.repository.UserRepository;
-import org.springframework.security.crypto.password .PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import static com.taskhub.taskhub.Role.USER;
 
+import static com.taskhub.taskhub.Role.ADMIN;
 
 @Service
-public class UserService {
+public class AdminService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AdminService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     public UserResponseDTO registerUser(UserRequestDTO userRequestDTO) {
-        if (userRepository.existsByEmail(userRequestDTO.getEmail())) {
+        if (!userRepository.existsByEmail(userRequestDTO.getEmail())) {
+            User admin = new User();
+            admin.setName(userRequestDTO.getName());
+            admin.setEmail(userRequestDTO.getEmail());
+            admin.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
+            admin.setRole(ADMIN);
+            User createdAdmin = userRepository.save(admin);
+            return toResponseDTO(createdAdmin);
+        } else {
             throw new RuntimeException("Email already in use");
         }
-        User user = new User();
-        user.setName(userRequestDTO.getName());
-        user.setEmail(userRequestDTO.getEmail());
-        user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
-        user.setRole(USER);
-        User createdUser = userRepository.save(user);
-        return toResponseDTO(createdUser);
     }
 
     public UserResponseDTO loginUser(UserRequestDTO userRequestDTO) {
@@ -53,7 +54,7 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
-         userRepository.deleteById(id);
+        userRepository.deleteById(id);
     }
 
     // Helper Method

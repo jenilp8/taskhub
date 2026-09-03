@@ -1,8 +1,8 @@
 package com.taskhub.taskhub.controller;
 
-
 import com.taskhub.taskhub.dto.auth.UserRequestDTO;
 import com.taskhub.taskhub.dto.auth.UserResponseDTO;
+import com.taskhub.taskhub.services.AdminService;
 import com.taskhub.taskhub.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -13,36 +13,36 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/admin")
 @Validated
-public class UserController {
+public class AdminController {
 
-    private final UserService userService;
-    public UserController(UserService userService) {
-        this.userService = userService;
+    private final AdminService adminService;
+    public AdminController(AdminService adminService) {
+        this.adminService = adminService;
     };
 
     @PostMapping("/register")
     public ResponseEntity<UserResponseDTO> register(@Valid @RequestBody UserRequestDTO userRequestDTO) {
-        UserResponseDTO user = userService.registerUser(userRequestDTO);
+        UserResponseDTO user = adminService.registerUser(userRequestDTO);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     };
 
     @PostMapping("/login")
     public ResponseEntity<UserResponseDTO> login(@Valid @RequestBody UserRequestDTO userRequestDTO) {
-        UserResponseDTO user = userService.loginUser(userRequestDTO);
+        UserResponseDTO user = adminService.loginUser(userRequestDTO);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     };
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+        adminService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping()
     public ResponseEntity<List<UserResponseDTO>> findAllUsers() {
-        return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
+        return new ResponseEntity<>(adminService.findAllUsers(), HttpStatus.OK);
     }
 
 }
