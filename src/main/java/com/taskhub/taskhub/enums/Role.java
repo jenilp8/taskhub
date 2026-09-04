@@ -1,4 +1,4 @@
-package com.taskhub.taskhub;
+package com.taskhub.taskhub.enums;
 
 public enum Role {
     USER,

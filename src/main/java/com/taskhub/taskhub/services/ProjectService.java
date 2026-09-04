@@ -64,9 +64,7 @@ public class ProjectService {
                     project.getId(),
                     project.getName(),
                     project.getDescription(),
-                    project.getOwner().getId(),
-                    project.getCreatedAt(),
-                    project.getUpdatedAt()
+                    project.getOwner()
             );
         }
 }

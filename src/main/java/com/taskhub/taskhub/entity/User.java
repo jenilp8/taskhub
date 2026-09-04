@@ -1,6 +1,6 @@
 package com.taskhub.taskhub.entity;
 
-import com.taskhub.taskhub.Role;
+import com.taskhub.taskhub.enums.Role;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

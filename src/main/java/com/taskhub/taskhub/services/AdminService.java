@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.taskhub.taskhub.Role.ADMIN;
+import static com.taskhub.taskhub.enums.Role.ADMIN;
 
 @Service
 public class AdminService {

@@ -30,10 +30,10 @@ public class ProjectController {
         return new ResponseEntity<>(project, HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public ResponseEntity<List<ProjectResponseDTO>> getOwnProjects(Pageable pageable, ProjectRequestDTO projectRequestDTO) {
-        ProjectResponseDTO projects = projectService.listOwnProjects(projectRequestDTO.getOwner().getId(), pageable);
-    }
+//    @GetMapping
+//    public ResponseEntity<List<ProjectResponseDTO>> getOwnProjects(Pageable pageable, ProjectRequestDTO projectRequestDTO) {
+//        ProjectResponseDTO projects = projectService.listOwnProjects(projectRequestDTO.getOwner().getId(), pageable);
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<ProjectResponseDTO> update(@PathVariable Long id,
