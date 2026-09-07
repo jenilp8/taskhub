@@ -1,23 +1,16 @@
 package com.taskhub.taskhub.dto.auth.project;
 
-import com.taskhub.taskhub.entity.User;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class ProjectRequestDTO {
-    @NotBlank
+
+    @NotBlank(message = "Name is required")
+    @Size(max = 150, message = "Name must not exceed 150 characters")
     private String name;
-    @NotBlank
+
+    @Size(max = 1000, message = "Description must not exceed 1000 characters")
     private String description;
-    @NotBlank
-    private User owner;
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
 
     public String getName() {
         return name;

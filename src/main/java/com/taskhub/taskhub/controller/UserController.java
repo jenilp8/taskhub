@@ -1,6 +1,8 @@
 package com.taskhub.taskhub.controller;
 
 
+import com.taskhub.taskhub.dto.auth.AuthResponseDTO;
+import com.taskhub.taskhub.dto.auth.LoginRequestDTO;
 import com.taskhub.taskhub.dto.auth.UserRequestDTO;
 import com.taskhub.taskhub.dto.auth.UserResponseDTO;
 import com.taskhub.taskhub.services.UserService;
@@ -29,10 +31,10 @@ public class UserController {
     };
 
     @PostMapping("/login")
-    public ResponseEntity<UserResponseDTO> login(@Valid @RequestBody UserRequestDTO userRequestDTO) {
-        UserResponseDTO user = userService.loginUser(userRequestDTO);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
-    };
+    public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginRequestDTO dto) {
+        AuthResponseDTO response = userService.loginUser(dto);
+        return ResponseEntity.ok(response);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {

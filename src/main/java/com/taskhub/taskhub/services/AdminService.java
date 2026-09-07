@@ -1,66 +1,67 @@
 package com.taskhub.taskhub.services;
 
-import com.taskhub.taskhub.dto.auth.UserRequestDTO;
 import com.taskhub.taskhub.dto.auth.UserResponseDTO;
-import com.taskhub.taskhub.entity.User;
-import com.taskhub.taskhub.exception.UserNotFoundException;
+import com.taskhub.taskhub.dto.auth.project.ProjectResponseDTO;
+import com.taskhub.taskhub.dto.auth.task.TaskResponseDTO;
+import com.taskhub.taskhub.entity.Project;
+import com.taskhub.taskhub.entity.Task;
+import com.taskhub.taskhub.repository.ProjectRepository;
+import com.taskhub.taskhub.repository.TaskRepository;
 import com.taskhub.taskhub.repository.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static com.taskhub.taskhub.enums.Role.ADMIN;
 
 @Service
 public class AdminService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final ProjectRepository projectRepository;
+    private final TaskRepository taskRepository;
 
-    public AdminService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AdminService(UserRepository userRepository, ProjectRepository projectRepository,
+                        TaskRepository taskRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    public UserResponseDTO registerUser(UserRequestDTO userRequestDTO) {
-        if (!userRepository.existsByEmail(userRequestDTO.getEmail())) {
-            User admin = new User();
-            admin.setName(userRequestDTO.getName());
-            admin.setEmail(userRequestDTO.getEmail());
-            admin.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
-            admin.setRole(ADMIN);
-            User createdAdmin = userRepository.save(admin);
-            return toResponseDTO(createdAdmin);
-        } else {
-            throw new RuntimeException("Email already in use");
-        }
-    }
-
-    public UserResponseDTO loginUser(UserRequestDTO userRequestDTO) {
-        User user = userRepository.findByEmail(userRequestDTO.getEmail())
-                .orElseThrow(() -> new UserNotFoundException("Invalid email or password"));
-
-        if (!passwordEncoder.matches(userRequestDTO.getPassword(), user.getPassword())) {
-            throw new UserNotFoundException("Invalid email or password");
-        }
-
-        return toResponseDTO(user);
+        this.projectRepository = projectRepository;
+        this.taskRepository = taskRepository;
     }
 
     public List<UserResponseDTO> findAllUsers() {
-        List<User> users = userRepository.findAll();
-        return users.stream().map(this::toResponseDTO).toList();
+        return userRepository.findAll().stream()
+                .map(u -> new UserResponseDTO(u.getId(), u.getName(), u.getEmail()))
+                .toList();
     }
 
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public List<ProjectResponseDTO> findAllProjects() {
+        return projectRepository.findAll().stream()
+                .map(this::toProjectResponseDTO)
+                .toList();
     }
 
-    // Helper Method
-    private UserResponseDTO toResponseDTO(User user) {
-        // building and returning UserResponseDTO from a User entity
-        return new UserResponseDTO(user.getId(),user.getName(), user.getEmail());
+    public List<TaskResponseDTO> findAllTasks() {
+        return taskRepository.findAll().stream()
+                .map(this::toTaskResponseDTO)
+                .toList();
     }
 
+    private ProjectResponseDTO toProjectResponseDTO(Project project) {
+        return new ProjectResponseDTO(
+                project.getId(),
+                project.getName(),
+                project.getDescription(),
+                project.getOwner()
+        );
+    }
+
+    private TaskResponseDTO toTaskResponseDTO(Task task) {
+        return new TaskResponseDTO(
+                task.getId(),
+                task.getTitle(),
+                task.getDescription(),
+                task.getStatus(),
+                task.getPriority(),
+                task.getDueDate(),
+                task.getProject().getId()
+        );
+    }
 }

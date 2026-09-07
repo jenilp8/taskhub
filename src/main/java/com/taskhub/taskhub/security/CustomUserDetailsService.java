@@ -1,4 +1,4 @@
-package com.taskhub.taskhub.services;
+package com.taskhub.taskhub.security;
 
 import com.taskhub.taskhub.entity.User;
 import com.taskhub.taskhub.repository.UserRepository;
@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail())
                 .password(user.getPassword())
-                .roles(user.getRole().name()) // adjust if getRole() isn't an enum
+                .roles(user.getRole().name())
                 .build();
     }
 }

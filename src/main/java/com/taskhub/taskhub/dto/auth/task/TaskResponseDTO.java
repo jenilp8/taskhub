@@ -1,22 +1,21 @@
 package com.taskhub.taskhub.dto.auth.task;
 
-import com.taskhub.taskhub.enums.TaskPriority;
-import com.taskhub.taskhub.enums.TaskStatus;
+import com.taskhub.taskhub.entity.Task;
 
-import java.time.LocalDateTime;
+import java.time.*;
 
 public class TaskResponseDTO {
 
     private Long id;
     private String title;
     private String description;
-    private TaskStatus status;
-    private TaskPriority priority;
-    private LocalDateTime dueDate;
+    private Task.Status status;
+    private Task.Priority priority;
+    private LocalDate dueDate;
     private Long projectId;
 
-    public TaskResponseDTO(Long id, String title, String description, TaskStatus status,
-                           TaskPriority priority, LocalDateTime dueDate, Long projectId) {
+    public TaskResponseDTO(Long id, String title, String description, Task.Status status,
+                           Task.Priority priority, LocalDate dueDate, Long projectId) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -29,8 +28,8 @@ public class TaskResponseDTO {
     public Long getId() { return id; }
     public String getTitle() { return title; }
     public String getDescription() { return description; }
-    public TaskStatus getStatus() { return status; }
-    public TaskPriority getPriority() { return priority; }
-    public LocalDateTime getDueDate() { return dueDate; }
+    public Task.Status getStatus() { return status; }
+    public Task.Priority getPriority() { return priority; }
+    public LocalDate getDueDate() { return dueDate; }
     public Long getProjectId() { return projectId; }
 }

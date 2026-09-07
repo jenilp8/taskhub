@@ -1,7 +1,9 @@
 package com.taskhub.taskhub.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.time.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "tasks")
@@ -28,15 +30,17 @@ public class Task {
     @Column(name = "due_date")
     private LocalDate dueDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "project_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tasks_project_id"))
     private Project project;
 
+    @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
-    private LocalDate updatedAt;
+    private LocalDateTime updatedAt;
 
     public enum Status {
         TODO, IN_PROGRESS, COMPLETED
@@ -88,11 +92,11 @@ public class Task {
         this.priority = priority;
     }
 
-    public LocalDate getDueDate() {
+    public LocalDate  getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDate dueDate) {
+    public void setDueDate(LocalDate  dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -104,19 +108,19 @@ public class Task {
         this.project = project;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime  getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(LocalDateTime  createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDate getUpdatedAt() {
+    public LocalDateTime  getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDate updatedAt) {
+    public void setUpdatedAt(LocalDateTime  updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

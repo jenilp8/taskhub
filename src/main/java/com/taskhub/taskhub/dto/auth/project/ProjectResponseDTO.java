@@ -41,10 +41,10 @@ public class ProjectResponseDTO {
         this.owner = owner;
     }
 
-    public ProjectResponseDTO(Long id, String description, String name, User owner) {
+    public ProjectResponseDTO(Long id, String name, String description, User owner) {
         this.id = id;
-        this.description = description;
         this.name = name;
+        this.description = description;
         this.owner = owner;
     }
 }
