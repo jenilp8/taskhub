@@ -16,7 +16,7 @@ public class TaskRequestDTO {
     @Size(max = 1000, message = "Description must not exceed 1000 characters")
     private String description;
 
-    private Task.Status status; // optional on create — service defaults to TODO
+    private Task.Status status;
 
     private Task.Priority priority;
 
