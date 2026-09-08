@@ -9,6 +9,7 @@ import com.taskhub.taskhub.repository.ProjectRepository;
 import com.taskhub.taskhub.repository.TaskRepository;
 import com.taskhub.taskhub.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,18 +27,21 @@ public class AdminService {
         this.taskRepository = taskRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<UserResponseDTO> findAllUsers() {
         return userRepository.findAll().stream()
                 .map(u -> new UserResponseDTO(u.getId(), u.getName(), u.getEmail()))
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<ProjectResponseDTO> findAllProjects() {
         return projectRepository.findAll().stream()
                 .map(this::toProjectResponseDTO)
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<TaskResponseDTO> findAllTasks() {
         return taskRepository.findAll().stream()
                 .map(this::toTaskResponseDTO)

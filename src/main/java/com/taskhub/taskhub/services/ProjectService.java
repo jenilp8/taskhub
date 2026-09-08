@@ -23,6 +23,7 @@ public class ProjectService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public ProjectResponseDTO createProject(ProjectRequestDTO dto, User currentUser) {
         Project project = new Project();
         project.setName(dto.getName());
@@ -32,6 +33,7 @@ public class ProjectService {
         return toResponseDTO(project);
     }
 
+    @Transactional
     public ProjectResponseDTO updateProject(Long id, ProjectRequestDTO dto, User currentUser) {
         Project project = projectRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Project not found"));
@@ -45,6 +47,7 @@ public class ProjectService {
         return toResponseDTO(projectRepository.save(project));
     }
 
+    @Transactional(readOnly = true)
     public ProjectResponseDTO getProjectById(Long id, User currentUser) {
         Project project = projectRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Project not found"));
@@ -54,11 +57,13 @@ public class ProjectService {
         return toResponseDTO(project);
     }
 
+    @Transactional(readOnly = true)
     public Page<ProjectResponseDTO> listOwnProjects(Long ownerId, Pageable pageable) {
         return projectRepository.findByOwnerId(ownerId, pageable)
                 .map(this::toResponseDTO);
     }
 
+    @Transactional
     public void deleteProjectById(Long id, User currentUser) {
         Project project = projectRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Project not found"));

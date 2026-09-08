@@ -6,6 +6,7 @@ import com.taskhub.taskhub.dto.auth.UserRequestDTO;
 import com.taskhub.taskhub.dto.auth.UserResponseDTO;
 import com.taskhub.taskhub.entity.User;
 import com.taskhub.taskhub.exception.UserNotFoundException;
+import com.taskhub.taskhub.exception.DuplicateResourceException;
 import com.taskhub.taskhub.repository.UserRepository;
 import com.taskhub.taskhub.security.CustomUserDetailsService;
 import com.taskhub.taskhub.security.JwtService;
@@ -34,7 +35,7 @@ public class UserService {
 
     public UserResponseDTO registerUser(UserRequestDTO userRequestDTO) {
         if (userRepository.existsByEmail(userRequestDTO.getEmail())) {
-            throw new RuntimeException("Email already in use"); // fix to a proper exception separately
+            throw new DuplicateResourceException("Email already in use"); // fix to a proper exception separately
         }
         User user = new User();
         user.setName(userRequestDTO.getName());

@@ -24,6 +24,7 @@ public class TaskService {
         this.projectRepository = projectRepository;
     }
 
+    @Transactional
     public TaskResponseDTO createTask(Long projectId, TaskRequestDTO dto, User currentUser) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new ResourceNotFoundException("Project not found"));
@@ -41,6 +42,7 @@ public class TaskService {
         return toResponseDTO(task);
     }
 
+    @Transactional
     public TaskResponseDTO updateTask(Long taskId, TaskRequestDTO dto, User currentUser) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new ResourceNotFoundException("Task not found"));
@@ -57,6 +59,7 @@ public class TaskService {
         return toResponseDTO(taskRepository.save(task));
     }
 
+    @Transactional(readOnly = true)
     public TaskResponseDTO getTaskById(Long taskId, User currentUser) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new ResourceNotFoundException("Task not found"));
@@ -65,6 +68,7 @@ public class TaskService {
         return toResponseDTO(task);
     }
 
+    @Transactional(readOnly = true)
     public Page<TaskResponseDTO> listTasksByProject(Long projectId, Task.Status status, Task.Priority priority,
                                                     User currentUser, Pageable pageable) {
         Project project = projectRepository.findById(projectId)
@@ -86,6 +90,7 @@ public class TaskService {
         return tasks.map(this::toResponseDTO);
     }
 
+    @Transactional
     public void deleteTask(Long taskId, User currentUser) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new ResourceNotFoundException("Task not found"));
